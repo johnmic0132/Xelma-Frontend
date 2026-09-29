@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import Logo from '../assets/logo.svg';
 import { cn } from '../lib/utils';
 import { XELMA_CONTRACT_ID } from '../lib/stellarConfig';
+import { networkBadgeMeta } from '../lib/networkBadgeMeta';
 import { FREIGHTER_NETWORK_DOCS, STELLAR_NETWORKS_DOCS } from '../lib/stellarNetwork';
 
 export type FooterNetwork = 'TESTNET' | 'PUBLIC';
@@ -38,6 +39,9 @@ function resolveNetwork(override?: FooterNetwork): FooterNetwork {
   return passphrase.toLowerCase().includes('test') ? 'TESTNET' : 'PUBLIC';
 }
 
+// Badge colors are sourced from `networkBadgeMeta` (single source of truth)
+// so Footer pills stay visually consistent with the Navbar / NetworkBadge.
+// Testnet = amber, Public/mainnet = cyan.
 const NETWORK_META: Record<
   FooterNetwork,
   { label: string; description: string; badgeClass: string }
@@ -45,14 +49,12 @@ const NETWORK_META: Record<
   TESTNET: {
     label: 'Stellar Testnet',
     description: 'Sandbox network — no real funds settle here.',
-    badgeClass:
-      'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
+    badgeClass: networkBadgeMeta.TESTNET.badgeClass,
   },
   PUBLIC: {
     label: 'Stellar Mainnet',
     description: 'Public Stellar network (production).',
-    badgeClass:
-      'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    badgeClass: networkBadgeMeta.PUBLIC.badgeClass,
   },
 };
 
@@ -325,7 +327,7 @@ export default function Footer({
                     <span
                       className={cn(
                         'font-semibold block mb-1',
-                        isTestnet ? 'text-emerald-400' : 'text-cyan-400'
+                        isTestnet ? 'text-amber-400' : 'text-cyan-400'
                       )}
                     >
                       {isTestnet ? 'Stellar Testnet' : 'Stellar Mainnet'}
@@ -359,7 +361,7 @@ export default function Footer({
                         <a
                           href={FREIGHTER_NETWORK_DOCS}
                           {...externalLinkProps}
-                          className="text-emerald-300 underline underline-offset-2 hover:text-emerald-200 transition-colors"
+                          className="text-amber-300 underline underline-offset-2 hover:text-amber-200 transition-colors"
                         >
                           Freighter guide
                         </a>
@@ -386,7 +388,7 @@ export default function Footer({
                     'h-2 w-2 rounded-full shrink-0',
                     activeNetwork === 'TESTNET'
                       ? // Reuse the global pulse keyframes (already `motion-reduce`-aware).
-                        'status-dot-live bg-emerald-400'
+                        'status-dot-live bg-amber-400'
                       : 'status-dot bg-cyan-400'
                   )}
                   aria-hidden="true"
