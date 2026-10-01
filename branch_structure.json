@@ -1,0 +1,18 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "fix/issue-689-route-profileapi-through-centralized-apifetch",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "fix/issue-689-route-profileapi-through-centralized-apifetch": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "fix/issue-689-route-profileapi-through-centralized-apifetch",
+    "origin"
+  ]
+}
